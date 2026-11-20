@@ -1,32 +1,34 @@
-# React + TypeScript + Vite
+# Thor Outlet (Edge AI + IoT Energy Management) — Web Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+เว็บแอปพลิเคชันสำหรับตรวจสอบการใช้พลังงานไฟฟ้าแบบเรียลไทม์ จำแนกชนิดเครื่องใช้ไฟฟ้าด้วย Edge AI (Edge Impulse) และควบคุมการเปิด-ปิดเต้ารับอัจฉริยะผ่านระบบคลาวด์
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## โครงสร้างโฟลเดอร์ (Folder Structure)
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+```text
+thor_outlet_web/
+├── index.html                        # โครงสร้างหน้าเว็บหลัก
+├── README.md                         # คู่มือการใช้งานและคำอธิบายแต่ละไฟล์
+├── package.json                      # รายการ Dependencies และคำสั่งรันโปรเจกต์
+├── .env.example                      # ตัวอย่างการตั้งค่าตัวแปรเชื่อมต่อระบบ
+├── docs/
+│   └── FIREBASE_DATA_CONTRACT.md     # ข้อกำหนดโครงสร้างข้อมูลของระบบ
+├── public/
+│   └── thor-logo.png                 # โลโก้หลักของ Thor Outlet
+└── src/
+    ├── main.tsx                      # จุดเริ่มต้นการทำงานของแอป React
+    ├── App.tsx                       # ตัวควบคุมหลัก (Login, Dashboard, Devices, Alerts, Account)
+    ├── App.css                       # สไตล์เพิ่มเติมของหน้าแอป
+    ├── index.css                     # ธีมหลัก การจัดวาง Layout และ Responsive
+    ├── firebase.ts                   # ระบบยืนยันตัวตน (Auth) และฐานข้อมูลผู้ใช้ (Firestore)
+    ├── thingsboard.ts                # ระบบดึงค่าพลังงาน ผลลัพธ์ AI และส่งคำสั่งเปิด-ปิด Relay
+    ├── types.ts                      # โครงสร้างข้อมูล (TypeScript Types)
+    ├── i18n/
+    │   └── translations.ts           # ระบบสลับภาษา ไทย / อังกฤษ
+    └── components/
+        ├── AccountSettings.tsx       # หน้าจัดการบัญชี เปลี่ยนรูปโปรไฟล์ และเปลี่ยนรหัสผ่าน
+        ├── DeviceList.tsx            # การ์ดแสดงสถานะปลั๊ก ค่าไฟ ผล AI และปุ่มควบคุม ON/OFF
+        ├── EmptyState.tsx            # หน้าจอแสดงผลเมื่อยังไม่มีข้อมูล
+        ├── LanguagePicker.tsx        # ปุ่มเลือกภาษา ไทย / อังกฤษ
+        └── index.ts                  # ตัวรวบรวม Component หลัก
