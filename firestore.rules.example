@@ -1,0 +1,38 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId)
+        && request.resource.data.keys().hasOnly(['email', 'displayName', 'photoURL', 'updatedAt']);
+
+      match /activity/{activityId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId)
+          && request.resource.data.keys().hasOnly(['type', 'createdAt'])
+          && request.resource.data.type in ['profile_updated', 'avatar_updated', 'password_changed', 'signed_in']
+          && request.resource.data.createdAt == request.time;
+        allow update, delete: if false;
+      }
+
+      match /devices/{deviceId} {
+        allow read: if isOwner(userId);
+        allow write: if false;
+      }
+
+      match /alerts/{alertId} {
+        allow read: if isOwner(userId);
+        allow write: if false;
+      }
+
+      match /energyHistory/{recordId} {
+        allow read: if isOwner(userId);
+        allow write: if false;
+      }
+    }
+  }
+}
